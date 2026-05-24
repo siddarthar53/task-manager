@@ -180,3 +180,75 @@ GET /api/tasks?status=active&priority=high&search=keyword
 
 ---
 
+# 🌐 Frontend Deployment Notes (React Router)
+
+This project uses `react-router-dom` with `BrowserRouter`.
+
+When deploying the frontend on platforms like Render or Vercel, refreshing routes such as:
+
+- `/login`
+- `/dashboard`
+- `/tasks`
+
+may return:
+
+```bash
+404 Not Found
+```
+
+## Why This Happens
+
+React Router handles routing on the client side.
+
+When a user refreshes a route like `/login`, the hosting server tries to find a real file/folder named `/login`.
+
+Since React routes are not actual files, the hosting platform must be configured to always serve:
+
+```bash
+index.html
+```
+
+for unknown routes.
+
+---
+
+# Render Configuration
+
+Go to:
+
+```bash
+Render Dashboard → Static Site → Settings → Redirects/Rewrites
+```
+
+Add the following rule:
+
+| Field | Value |
+|---|---|
+| Source | `/*` |
+| Destination | `/index.html` |
+| Action | `Rewrite` |
+
+---
+
+# Vercel Configuration
+
+Create a `vercel.json` file inside the `client/` directory:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
+```
+
+This ensures React routes work correctly after refresh and direct URL access in production deployments.
+
+---
+
+## © Copyright
+
+Copyright © 2026 SIDDARTHA REDDY MADGULA. All Rights Reserved.
