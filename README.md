@@ -180,6 +180,3 @@ GET /api/tasks?status=active&priority=high&search=keyword
 
 ---
 
-## 📝 License
-
-MIT
